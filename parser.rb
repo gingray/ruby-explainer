@@ -4,26 +4,29 @@ require 'parser/current'
 require 'unparser'
 require 'base64'
 
-class ClassRewriter
-  attr_reader :current_class
+class RubyRewriter
+  attr_reader :current_class, :logger
 
-  def initialize
+  def initialize(logger: nil)
     @current_class = ''
+    @logger = logger || ->(prefix, msg) { [prefix, msg] }
   end
 
-  def instrument_class_ast(source)
+  def call(source)
     buffer = Parser::Source::Buffer.new(source)
-    buffer.source = source
     parser = Parser::CurrentRuby.new
+    buffer.source = source
     ast = parser.parse(buffer)
+    logger.call('given_ast', ast)
     new_ast = inject_logging(ast)
+    logger.call('new_ast', new_ast)
     Unparser.unparse(new_ast)
   end
 
   def inject_logging(node)
     return node unless node.is_a?(Parser::AST::Node)
 
-    @current_class = node.children.first.children.last if node.type == :class
+    node = replace_class_name(node) if node.type == :class
 
     case node.type
     when :def
@@ -33,6 +36,21 @@ class ClassRewriter
     else
       node.updated(nil, node.children.map { |child| inject_logging(child) })
     end
+  end
+
+  def replace_class_name(node)
+    return node unless node.is_a?(Parser::AST::Node)
+
+    if node.type == :const
+      _, class_name = *node.children
+      @current_class = "#{class_name}Ext"
+      node = node.updated(nil, [nil, @current_class.to_sym])
+    end
+    new_nodes = []
+    node.children.each do |child|
+      new_nodes << replace_class_name(child)
+    end
+    node.updated(nil, new_nodes)
   end
 
   def instrument_method(node)
@@ -69,19 +87,18 @@ class ClassRewriter
 
     s(:begin,
       s(:lvasgn, :tmpz, expr),
-      s(:send, nil, :puts, dynamic_log),
+      dynamic_log(expr),
       s(:lvar, :tmpz))
   end
 
-  def dynamic_log
-    s(:dstr,
-      s(:str, '['),
-      s(:begin, s(:send, nil, :self)),
-      s(:str, '] result of call '),
-      s(:begin, s(:send, nil, :src)),
-      s(:str, ': '),
-      s(:begin, s(:lvar, :tmpz)),
-      s(:str, ' '))
+  def dynamic_log(expr)
+    src = Unparser.unparse(expr)
+    s(:send, nil, :puts, s(:send, s(:array,
+                                    s(:str, "\n["),
+                                    s(:send, nil, :self),
+                                    s(:str, '] result of call '),
+                                    s(:str, src),
+                                    s(:str, ': '), s(:lvar, :tmpz), s(:str, "\n")), :join))
   end
 
   def s(type, *children)

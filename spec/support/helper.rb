@@ -5,4 +5,8 @@ module SpecHelper
     path = File.join('spec', 'fixtures', filename)
     File.read(path)
   end
+
+  def path_fixture(filename)
+    File.join('spec', 'fixtures', filename)
+  end
 end

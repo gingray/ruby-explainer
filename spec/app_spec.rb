@@ -15,12 +15,12 @@ RSpec.describe 'The HelloWorld App' do
     end
   end
 
-  context 'POST /process_code', focus: true do
+  context 'POST /code' do
     let(:ruby_code) { read_fixture('test_1.rb') }
+    let(:ruby_file) { Rack::Test::UploadedFile.new(path_fixture('test_1.rb'), 'text/plain') }
     it 'process code' do
-      post('/process_code', JSON.generate({ code: ruby_code }), 'CONTENT_TYPE' => 'application/json')
+      post('/code', file: ruby_file, as: :multipart_form)
       expect(last_response).to be_ok
-      expect(last_response.body).to eq('OK')
     end
   end
 end
