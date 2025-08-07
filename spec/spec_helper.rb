@@ -3,6 +3,7 @@
 require 'rspec'
 require 'rack/test'
 require 'support/helper'
+require 'pry'
 require_relative '../app'
 
 RSpec.configure do |conf|

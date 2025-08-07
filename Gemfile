@@ -10,6 +10,7 @@ gem 'sinatra-contrib', '~> 4.1'
 gem 'unparser'
 
 group :development, :test do
+  gem 'pry', '~> 0.15.2'
   gem 'rack-test', '~> 2.2'
   gem 'rspec', '~> 3.13'
   gem 'rubocop', '~> 1.79'

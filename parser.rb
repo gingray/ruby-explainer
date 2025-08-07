@@ -68,19 +68,20 @@ class ClassRewriter
     end
 
     s(:begin,
-      s(:lvasgn, :__tmp__, expr),
+      s(:lvasgn, :tmpz, expr),
       s(:send, nil, :puts, dynamic_log),
-      s(:lvar, :__tmp__))
+      s(:lvar, :tmpz))
   end
 
   def dynamic_log
     s(:dstr,
       s(:str, '['),
-      s(:begin, s(:lvar, :self)),
+      s(:begin, s(:send, nil, :self)),
       s(:str, '] result of call '),
-      s(:begin, s(:lvar, :src)),
+      s(:begin, s(:send, nil, :src)),
       s(:str, ': '),
-      s(:begin, s(:lvar, :__tmp__)))
+      s(:begin, s(:lvar, :tmpz)),
+      s(:str, ' '))
   end
 
   def s(type, *children)

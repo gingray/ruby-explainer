@@ -15,7 +15,7 @@ RSpec.describe 'The HelloWorld App' do
     end
   end
 
-  context 'POST /process_code' do
+  context 'POST /process_code', focus: true do
     let(:ruby_code) { read_fixture('test_1.rb') }
     it 'process code' do
       post('/process_code', JSON.generate({ code: ruby_code }), 'CONTENT_TYPE' => 'application/json')
