@@ -3,6 +3,10 @@
 require 'parser/current'
 require 'unparser'
 require 'base64'
+require_relative 'code_rewriter/array'
+require_relative 'code_rewriter/traversal'
+require_relative 'code_rewriter/visitors/class_name_changer'
+require_relative 'code_rewriter/visitors/instrument_method'
 
 class RubyRewriter
   attr_reader :current_class, :logger

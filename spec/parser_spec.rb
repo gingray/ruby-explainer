@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe RubyRewriter do
-  context 'parse test_2.rb', focus: true do
+  context 'parse test_2.rb' do
     let(:ruby_code) { read_fixture('test_2.rb') }
     let(:buffer) { [] }
     let(:logger) do
