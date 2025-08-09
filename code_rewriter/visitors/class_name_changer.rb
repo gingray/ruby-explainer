@@ -12,9 +12,7 @@ module CodeRewriter
       def stat(node, path)
         state << node.type if node.type == :class
 
-        if node.type == :const && state.last == :class
-          @node_position = path.deep_copy
-        end
+        @node_position = path.deep_copy if node.type == :const && state.last == :class
         node
       end
 
@@ -27,7 +25,6 @@ module CodeRewriter
         end
         node
       end
-
     end
   end
 end

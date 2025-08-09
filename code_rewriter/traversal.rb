@@ -38,7 +38,7 @@ module CodeRewriter
 
       node = block.call(node, path)
       children = node.children.each_with_index.map do |child, item_idx|
-        current = current.push([])
+        current.push([])
         result = iterate(child, path, current.last, item_idx, &block)
         current.pop
         result

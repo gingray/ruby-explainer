@@ -2,7 +2,7 @@
 
 require 'sinatra'
 require 'sinatra/json'
-require_relative 'parser'
+require_relative 'rewriter'
 
 class MyApp < Sinatra::Base
   set :host_authorization, { permitted_hosts: [] }
@@ -18,7 +18,7 @@ class MyApp < Sinatra::Base
 
     source = tempfile.read
     puts source
-    rewriter = RubyRewriter.new
+    rewriter = CodeRewriter::Rewriter.new
     new_code = rewriter.call(source)
     new_code_64 = "require 'base64'; eval(Base64.decode64(\"#{Base64.encode64(new_code)}\"))"
 
