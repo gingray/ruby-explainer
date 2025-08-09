@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module CodeRewriter
+module Explainer
   module Visitors
-    # Add logging lines result and passed methods
+    # Add logging lines result and passed method
     class InstrumentMethod
       include Utility
 

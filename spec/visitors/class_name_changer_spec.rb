@@ -2,8 +2,8 @@
 
 require 'rspec'
 
-RSpec.describe CodeRewriter::Visitors::ClassNameChanger do
-  let(:visitor) { CodeRewriter::Visitors::ClassNameChanger.new }
+RSpec.describe Explainer::Visitors::ClassNameChanger do
+  let(:visitor) { Explainer::Visitors::ClassNameChanger.new }
   let(:unparser) { ->(ast) { Unparser.unparse(ast) } }
   let(:buffer) { [] }
   let(:logger) do
@@ -14,7 +14,7 @@ RSpec.describe CodeRewriter::Visitors::ClassNameChanger do
 
   context 'class with no modules' do
     let(:ruby_code) { read_fixture('class_name/test_1.rb') }
-    let(:traversal) { CodeRewriter::Traversal.new(logger: logger) }
+    let(:traversal) { Explainer::Traversal.new(logger: logger) }
 
     it 'should generate ZZZExt' do
       new_ast = traversal.call(ruby_code, [visitor])
@@ -25,7 +25,7 @@ RSpec.describe CodeRewriter::Visitors::ClassNameChanger do
 
   context 'regular declaration for modules' do
     let(:ruby_code) { read_fixture('class_name/test_2.rb') }
-    let(:traversal) { CodeRewriter::Traversal.new(logger: logger) }
+    let(:traversal) { Explainer::Traversal.new(logger: logger) }
 
     it 'should generate ZZZExt' do
       new_ast = traversal.call(ruby_code, [visitor])
@@ -36,7 +36,7 @@ RSpec.describe CodeRewriter::Visitors::ClassNameChanger do
 
   xcontext 'short declaration for modules' do
     let(:ruby_code) { read_fixture('class_name/test_3.rb') }
-    let(:traversal) { CodeRewriter::Traversal.new(logger: logger) }
+    let(:traversal) { Explainer::Traversal.new(logger: logger) }
 
     it 'should generate ZZZExt' do
       new_ast = traversal.call(ruby_code, [visitor])

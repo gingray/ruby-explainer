@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module CodeRewriter
+module Explainer
   module Visitors
     # Add prefix to class
     class ClassNameChanger

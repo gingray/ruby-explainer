@@ -2,7 +2,7 @@
 
 require 'sinatra'
 require 'sinatra/json'
-require_relative 'code_rewriter'
+require_relative 'explainer'
 
 # Sinatra App
 class MyApp < Sinatra::Base
@@ -19,7 +19,7 @@ class MyApp < Sinatra::Base
 
     source = tempfile.read
     puts source
-    rewriter = CodeRewriter::Rewriter.new
+    rewriter = Explainer::Rewriter.new
     new_code = rewriter.call(source)
     new_code64 = "require 'base64'; eval(Base64.decode64(\"#{Base64.encode64(new_code)}\"))"
 
