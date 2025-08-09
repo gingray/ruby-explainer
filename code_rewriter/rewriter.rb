@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module CodeRewriter
+  # Main class to apply ruby code rewrite to add logs
   class Rewriter
     attr_reader :traversal, :unparser, :logger
 

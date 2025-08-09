@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module CodeRewriter
+  # Traverse through AST tree
   class Traversal
     attr_reader :parser, :logger
 

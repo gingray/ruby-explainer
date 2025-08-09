@@ -2,8 +2,10 @@
 
 module CodeRewriter
   module Visitors
+    # Add logging lines result and passed methods
     class InstrumentMethod
       include Utility
+
       attr_reader :state
 
       def initialize

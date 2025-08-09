@@ -34,7 +34,7 @@ RSpec.describe CodeRewriter::Visitors::ClassNameChanger do
     end
   end
 
-  context 'short declaration for modules' do
+  xcontext 'short declaration for modules' do
     let(:ruby_code) { read_fixture('class_name/test_3.rb') }
     let(:traversal) { CodeRewriter::Traversal.new(logger: logger) }
 

@@ -2,6 +2,7 @@
 
 module CodeRewriter
   module Visitors
+    # Add prefix to class
     class ClassNameChanger
       attr_reader :state
 
@@ -21,7 +22,7 @@ module CodeRewriter
       def process(node, path)
         if path == @node_position
           _, class_name = *node.children
-          return node.updated(nil, [nil, "#{class_name}Ext".to_sym])
+          return node.updated(nil, [nil, :"#{class_name}Ext"])
         end
         node
       end

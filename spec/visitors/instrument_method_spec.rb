@@ -29,7 +29,7 @@ RSpec.describe 'CodeRewriter::Visitors::InstrumentMethod' do
 
     let(:traversal) { CodeRewriter::Traversal.new(logger: logger) }
 
-    it 'should put argument logs'  do
+    it 'should put argument logs' do
       new_ast = traversal.call(ruby_code, [visitor])
       generated_code = unparser.call(new_ast)
       expect(generated_code).to match(/class MyTestClass/)
