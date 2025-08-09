@@ -1,11 +1,28 @@
 # frozen_string_literal: true
 
-class MyTestClass
-  def call(arg1, arg2, &block)
-    some_call(1, 2)
-    [].each do |item|
-      block.call(arg1, arg2, item)
+class MyPlayerClass
+  attr_reader :player, :heal_service, :hit_service
+  def initialize(player, heal_service: GenericHeal.new, hit_service: GenericHit.new)
+    @player = player
+    @heal_service = heal_service
+    @hit_service = hit_service
+  end
+
+  def call(heal_amount, hit_crit_chance, &block)
+    if rand < 0.5
+      heal_me(heal_amount)
+    else
+      hit_creep(hit_crit_chance)
     end
-    some_another_call(1, 3)
+    block.call(player)
+  end
+
+  private
+  def heal_me(amount)
+    service.call(amount)
+  end
+
+  def hit_creep(amount)
+    service.call(amount)
   end
 end
