@@ -1,5 +1,5 @@
 ## Description
-Basically app take existing ruby code parse it to AST and rebuild it. In the way that each method call or line call are wrapped with `puts/` to log all execution process.  
+Basically app take existing ruby code parse it to AST and rebuild it. In the way that each method call or line call are wrapped with `puts` to log all execution process.  
 Sometimes I need to execute in console some peace of existing code to understand how it works.  
 Example: 
 ```ruby
@@ -64,5 +64,14 @@ class MyPlayerClass
   end
 end
 ```
+## Usage
 
+```shell
+puma config.ru -p 3000
+```
+```shell
+curl -X POST --location "http://localhost:3000/code" \
+    -H "Content-Type: multipart/form-data; boundary=WebAppBoundary" \
+    -F "file=@./spec/fixtures/test_1.rb;filename=test_1.rb;type=text/plain"
+```
 Current state it's just POC

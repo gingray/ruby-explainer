@@ -1,0 +1,13 @@
+### Send a form with the text and file fields
+POST http://localhost:3000/code
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="test_1.rb"
+Content-Type: text/plain
+
+< ./spec/fixtures/test_1.rb
+--WebAppBoundary--
+
+<> 2025-08-10T131723.200.html
+
