@@ -1,2 +1,3 @@
 /spec/fixtures/real_file.rb
 .DS_Store
+/spec/fixtures/real_file_2.rb
