@@ -36,7 +36,7 @@ RSpec.describe 'Explainer::Visitors::InstrumentMethod' do
     end
   end
 
-  context 'add logger to kwargs methods', focus: true do
+  context 'add logger to kwargs methods' do
     let(:ruby_code) { read_fixture('instrument_method/test_3.rb') }
 
     let(:traversal) { Explainer::Traversal.new(logger: logger) }
@@ -45,6 +45,18 @@ RSpec.describe 'Explainer::Visitors::InstrumentMethod' do
       new_ast = traversal.call(ruby_code, [visitor])
       generated_code = unparser.call(new_ast)
       expect(generated_code).to match(/class MyTestClass/)
+    end
+  end
+
+  context 'do not log args if no args in method' do
+    let(:ruby_code) { read_fixture('instrument_method/test_4.rb') }
+
+    let(:traversal) { Explainer::Traversal.new(logger: logger) }
+
+    it 'should put argument logs' do
+      new_ast = traversal.call(ruby_code, [visitor])
+      generated_code = unparser.call(new_ast)
+      expect(generated_code).to_not match(/LOG arguments/)
     end
   end
 end
